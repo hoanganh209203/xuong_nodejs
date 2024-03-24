@@ -9,4 +9,8 @@ export const registerSchem = Joi.object({
     avatar:Joi.string(),
     address:Joi.string(),
     role:Joi.string()
+});
+export const loginSchem = Joi.object({
+    email:Joi.string().email().required(),
+    password:Joi.string().required().min(6)
 })
