@@ -1,7 +1,10 @@
+import { errorMessage } from "../constants/message.constant.js"
+
 export const errorHandler = (err,req,res)=>{
     return res.status(err.status || 500).json({
       error: {
-        message:err.message
+        name:err.name,
+        message:err.message || errorMessage.ERROR_SERVER
       }
     })
   }

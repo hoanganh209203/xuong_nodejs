@@ -1,24 +1,18 @@
 import userModel from "../models/user.model.js";
+import { handlPassword } from "../utils/hashPass.js";
+import { validAuth } from "../utils/valid.utils.js";
 import { loginSchem, registerSchem } from "../validation/auth.validation.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 export const register = async (req,res) =>{
     try {
         const {email,password} = req.body
-        const {error} = await registerSchem.validate(req.body,{
-            abortEarly:false
-        })
-        if(error){
-            const errors = error.details.map((e)=>e.message)
-            return res.status(500).json({message: errors.message})
-        }
-
+       validAuth(req.body,registerSchem)
         const checkEmail = await userModel.findOne({email:email})
         if(checkEmail){
             return res.status(400).json({message:"Email da ton tai"})
         }
-        const salt = await bcrypt.genSalt(10)
-        const handlPassword = await bcrypt.hash(password,salt)
+       handlPassword(password)
         const user = await userModel.create({...req.body, password:handlPassword})
         console.log(user);
         return res.status(201).json({ 
