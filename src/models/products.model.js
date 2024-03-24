@@ -2,26 +2,14 @@ import mongoose from 'mongoose';
 
 const productShema = new mongoose.Schema(
     {
-        title: {
+        name: {
             type: String,
             required: true,
             minLeght: 3,
         },
-        status: {
-            type: String,
-            required: true,
-        },
-        rating: {
+        price: {
             type: Number,
             minLeght: 1,
-        },
-        released: {
-            type: Number,
-            required: true
-        },
-        time: {
-            type: Number,
-            require: true
         },
         description: {
             type: String,
@@ -38,9 +26,6 @@ const productShema = new mongoose.Schema(
             ref: "categories",
             required: true,
         },
-        goodAnime:{
-            type:Boolean
-        }
         // images: {
         //     path: {
         //         type: String,

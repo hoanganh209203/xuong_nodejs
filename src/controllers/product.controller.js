@@ -3,102 +3,66 @@ import { productValid } from '../validation/product.validation.js';
 
 
 const productController = {
-    getListProduct : async (req, res) => {
+    getListProduct: async (req, res, next) => {
         try {
-            const  data  = await products.find();
-            if (!data) {
-                return res.status(400).json({
-                    message: "Khong co san pham nao!"
-                })
-            }
+            const data = await products.find();
             return res.status(200).json({
                 message: "Lấy danh sách thành công !",
                 data: data,
             })
-           
+
         } catch (error) {
-            return res.status(500).json({
-                name: error.name,
-                message: error.message,
-            })
+            next(error)
         }
     },
-    getListById : async (req, res) =>{
+    getListById: async (req, res, next) => {
         try {
             const id = req.params.id
             const data = await products.findById(id)
-            if(!data){
-                return res.status(404).json({
-                    message:"Product not found"
-                })
-            }
             return res.status(200).json(data)
         } catch (error) {
-            return res.status(500).json({
-                message:"error sever"
-            })
+            next(error)
         }
     },
-    createProduct : async (req, res) => {
+    createProduct: async (req, res, next) => {
 
         try {
-            const {error} = productValid.validate(req.body);
+            const { error } = productValid.validate(req.body);
             if (error) {
                 return res.status(500).json({
-                    message:error.details[0].message
+                    message: error.details[0].message
                 })
-            } 
-
-
-            const  data  = await products.create(req.body);
-            if (!data) {
-                return res.status(400).json({ message: "Them san pham that bai!" });
             }
+            const data = await products.create(req.body);
             return res.status(201).json({
                 message: "Them san pham thanh cong!",
                 data,
             });
         } catch (error) {
-            return res.status(500).json({ name: error.name, error: error.message });
+            next(error)
         }
     },
-    updateProduct : async (req, res) => {
+    updateProduct: async (req, res, next) => {
         try {
-            const  data  = await products.findByIdAndUpdate(req.params.id, req.body,{new: true});
-            if (!data) {
-                return res.status(400).json({
-                    message: "Cap nhat that bai"
-                })
-            }
+            const data = await products.findByIdAndUpdate(req.params.id, req.body, { new: true });
             return res.status(200).json({
                 message: "Sua san pham thanh cong!",
                 data: data,
-        })
-        } catch (error) {
-            return res.status(500).json({
-                name: error.name,
-                message: error.message,
             })
+        } catch (error) {
+            next(error)
         }
     },
-    removeProduct : async (req, res) => {
+    removeProduct: async (req, res, next) => {
         try {
-            const data  = await products.findByIdAndDelete(req.params.id,{new: true});
-            if (!data) {
-                return res.status(400).json({
-                    message: "xoa nhat that bai"
-                })
-            }
+            const data = await products.findByIdAndDelete(req.params.id, { new: true });
             return res.status(200).json({
                 message: "xoa san pham thanh cong!",
-        })
-        } catch (error) {
-            return res.status(500).json({
-                name: error.name,
-                message: error.message,
             })
+        } catch (error) {
+            next(error)
         }
-     }
+    }
 }
 
 export default productController
