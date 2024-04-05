@@ -1,6 +1,6 @@
 import Joi from "joi"
 
-export const productValid = Joi.object({
+const productValid = Joi.object({
     name:Joi.string().required().min(3),
     categoryId:Joi.string().required(),
     price:Joi.number().required(),
@@ -8,3 +8,4 @@ export const productValid = Joi.object({
     thumbnail:Joi.string().required(),
     // images:Joi.string().required()
 })
+export default productValid;

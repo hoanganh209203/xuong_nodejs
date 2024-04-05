@@ -1,5 +1,5 @@
 import products from '../models/products.model.js';
-import { productValid } from '../validation/product.validation.js';
+import  productValid from '../validation/product.validation.js';
 
 
 const productController = {
@@ -62,7 +62,31 @@ const productController = {
         } catch (error) {
             next(error)
         }
+    },
+    // ! Xoá mềm
+ softRemoveProductById : async (req, res, next) => {
+    try {
+      const data = await products.findByIdAndUpdate(
+        `${req.params.id}`,
+        {
+          hide: true,
+        },
+        {
+          new: true,
+        }
+      );
+      //! findByIdAndUpdate !== findByIdAndRemove
+      if (!data) {
+        return res.status(400).json({ message: "Cap nhat san pham that bai!" });
+      }
+      return res.status(201).json({
+        message: "Cap nhat san pham thanh cong!",
+        data,
+      });
+    } catch (error) {
+      next(error);
     }
+  }
 }
 
 export default productController

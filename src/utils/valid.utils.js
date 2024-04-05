@@ -1,4 +1,4 @@
-import {registerSchem} from '../validation/auth.validation.js'
+import {registerSchema} from '../validation/auth.validation.js'
 export const validAuth = (user,isSchema) =>{
     const {error} = isSchema.validate(user,{
         abortEarly:false

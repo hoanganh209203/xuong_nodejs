@@ -25,12 +25,7 @@ const productShema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "categories",
             required: true,
-        },
-        // images: {
-        //     path: {
-        //         type: String,
-        //     }
-        // },
+        }
 
     }, {
     timestamps: true,
